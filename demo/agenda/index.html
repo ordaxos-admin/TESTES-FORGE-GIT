@@ -10,6 +10,7 @@
   <script type="module" src="./app.mjs"></script>
 </head>
 <body>
+  <a class="skip-link" href="#tasks-title">Pular para tarefas</a>
   <main class="shell">
     <header class="heading">
       <div class="eyebrow">SUA ROTINA, ORGANIZADA</div>
@@ -31,7 +32,8 @@
       <div class="toolbar">
         <div>
           <h2 id="tasks-title">Suas tarefas</h2>
-          <p id="summary" role="status" aria-live="polite"></p>
+          <p id="summary"></p>
+          <p id="action-status" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
         </div>
         <div class="filters" aria-label="Filtrar tarefas" role="group">
           <button type="button" class="filter active" data-filter="all" aria-pressed="true">Todas</button>
