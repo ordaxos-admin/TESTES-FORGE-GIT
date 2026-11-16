@@ -127,3 +127,16 @@ test('setas e Home/End navegam entre tarefas sem ultrapassar a lista', () => {
   assert.equal(keyboardTaskIndex(-1, 3, 'ArrowDown'), null);
   assert.equal(keyboardTaskIndex(0, 0, 'End'), null);
 });
+
+test('rejeita descrições invisíveis e controles Unicode perigosos', () => {
+  for (const title of ['\u200B', '\u200D\u2060', '\uFEFF', 'Tarefa\u0000oculta', 'a\u202Eb', '\u2066texto\u2069']) {
+    assert.throws(() => normalizeTitle(title), RangeError);
+    assert.throws(() => parseTasks(JSON.stringify([{ id: 'i', title, done: false }])), RangeError);
+  }
+});
+
+test('preserva emoji composto e Unicode visível ao validar título', () => {
+  const family = '👨‍👩‍👧';
+  assert.equal(normalizeTitle('  Reunião ' + family + '  '), 'Reunião ' + family);
+  assert.deepEqual(parseTasks(JSON.stringify(addTask([], family, 'emoji'))), [{ id: 'emoji', title: family, done: false }]);
+});
