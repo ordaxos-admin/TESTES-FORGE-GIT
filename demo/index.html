@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#18130f">
+  <meta name="description" content="Forno 7: pizzas feitas com cuidado, do forno para sua mesa.">
+  <title>Forno 7 — Pizza de verdade</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#2d2119;background:#fbf6ed;--ink:#2d2119;--red:#af3525;--cream:#fbf6ed;--border:#e8dccc}
+    *{box-sizing:border-box}body{margin:0}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #da8a43;outline-offset:3px}
+    .wrap{max-width:1180px;margin:auto;padding:0 24px}
+    header{background:#1c1713;color:white}header .wrap{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{font-size:29px;font-weight:900;letter-spacing:-1.5px}.brand span{color:#f0ae5e}
+    .top-info{font-size:13px;color:#dacdc0}.cart-toggle{border:1px solid #c47752;color:#fff;background:#743524;border-radius:999px;padding:12px 18px;font-weight:800}
+    .hero{background:radial-gradient(circle at 75% 45%,#8e4a2c 0,#42261b 32%,#1c1713 75%);color:white;padding:70px 0 78px}
+    .hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:20px}
+    .eyebrow{text-transform:uppercase;letter-spacing:3px;color:#f4ae5d;font-weight:800;font-size:12px}
+    h1{font-size:clamp(46px,7vw,86px);line-height:1.02;letter-spacing:-3px;margin:16px 0 20px}
+    .hero p{color:#e4d4c5;font-size:18px;line-height:1.6;max-width:540px}
+    .hero a{display:inline-block;background:#f4b45e;color:#29170d;text-decoration:none;border-radius:12px;padding:15px 23px;margin-top:14px;font-weight:900}
+    .pizza-art{font-size:clamp(130px,22vw,250px);text-align:center;filter:drop-shadow(0 18px 20px #120c08);transform:rotate(-12deg)}
+    main{padding:60px 0 90px}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:26px}
+    h2{font-family:Georgia,serif;font-size:clamp(32px,4vw,48px);margin:0}.section-heading p{margin:8px 0 0;color:#6f6258}
+    .filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:27px}.filter{padding:11px 18px;border:1px solid var(--border);border-radius:50px;background:white;color:var(--ink);font-weight:700}
+    .filter[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:white}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) 345px;gap:32px;align-items:start}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .card{background:#fff;border:1px solid var(--border);border-radius:19px;overflow:hidden;box-shadow:0 9px 22px #4730210a}
+    .visual{background:linear-gradient(125deg,#f3ce9c,#ecad71);min-height:148px;display:flex;align-items:center;justify-content:center;font-size:78px}
+    .card-body{padding:21px}.tag{color:#9b4931;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1.4px}
+    h3{margin:8px 0;font-size:21px}.desc{font-size:14px;color:#766a5e;min-height:44px;line-height:1.5}
+    .card-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:20px}
+    .price{font-weight:900;font-size:21px}.add{border:0;background:var(--red);color:white;border-radius:10px;padding:11px 16px;font-weight:800}
+    .cart{background:white;border:1px solid var(--border);border-radius:19px;padding:25px;position:sticky;top:20px;box-shadow:0 12px 35px #4730210b}
+    .cart h2{font:900 24px system-ui;margin-bottom:19px}.cart-items{display:grid;gap:15px}.empty{color:#817369;background:#fbf6ed;border-radius:12px;padding:25px 16px;text-align:center;line-height:1.6}
+    .cart-row{display:flex;justify-content:space-between;gap:14px;border-bottom:1px solid #f0e7da;padding-bottom:15px}.cart-row strong{display:block;font-size:14px}
+    .line-price{display:block;color:#76675b;font-size:13px;margin-top:4px}.qty{display:flex;align-items:center;gap:10px;margin-top:8px}
+    .qty button{width:30px;height:30px;border:1px solid #dccaba;background:#fff9f2;border-radius:7px;font-weight:900}
+    .qty span{min-width:17px;text-align:center;font-weight:700}.total{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:22px;margin-top:22px}
+    .notice{font-size:12px;color:#776a60;line-height:1.6;margin:16px 0 0}.badge{background:#edb462;color:#21140c;padding:4px 8px;border-radius:99px;margin-left:4px}
+    footer{background:#1c1713;color:#dacdc0;padding:30px 0;font-size:13px}
+    @media(max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.cart{position:static}.hero{padding:55px 0}.hero .wrap{grid-template-columns:1fr auto}.pizza-art{font-size:135px}}
+    @media(max-width:600px){.wrap{padding:0 16px}header .wrap{min-height:72px}.top-info{display:none}.brand{font-size:25px}.hero{padding:52px 0}.hero .wrap{grid-template-columns:1fr}.pizza-art{display:none}h1{letter-spacing:-2px}.hero p{font-size:16px}.grid{grid-template-columns:1fr}.visual{min-height:125px}.section-heading{align-items:start}main{padding-top:43px}.cart-toggle{padding:10px 13px}.card-body{padding:19px}}
+    @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}.add:hover,.cart-toggle:hover{filter:brightness(1.12)}}
+  </style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand">FORNO <span>7</span></div><div class="top-info">Feita com calma. Servida quentinha.</div><button class="cart-toggle" id="cart-toggle" type="button" aria-controls="cart">Ver carrinho <span class="badge" id="cart-count">0</span></button></div></header>
+<section class="hero"><div class="wrap"><div><div class="eyebrow">Tradição em cada fatia</div><h1>O sabor começa no forno.</h1><p>Massa artesanal, ingredientes de verdade e aquela pizza que transforma qualquer encontro em ocasião especial.</p><a href="#cardapio">Explorar cardápio ↓</a></div><div class="pizza-art" role="img" aria-label="Ilustração de pizza">🍕</div></div></section>
+<main class="wrap" id="cardapio"><div class="section-heading"><div><h2>Nosso cardápio</h2><p>Escolha sua favorita. Os preços são por pizza inteira.</p></div></div>
+<div class="filters" id="filters" role="group" aria-label="Filtrar pizzas"></div>
+<div class="layout"><div class="grid" id="menu" aria-live="polite"></div><aside class="cart" id="cart" aria-label="Seu carrinho"><h2>Seu pedido 🛒</h2><div class="cart-items" id="cart-items" aria-live="polite"></div><div class="total"><span>Total</span><output id="cart-total">R$ 0,00</output></div><p class="notice">Valores ilustrativos. Este é um site demonstrativo: não recebe pedidos nem pagamentos.</p></aside></div></main>
+<footer><div class="wrap">© Forno 7 · Projeto demonstrativo, sem vendas online.</div></footer>
+<script type="module">
+import { menu, changeQuantity, calculateCart, formatMoney } from "./cart.mjs";
+const menuEl = document.querySelector("#menu");
+const filtersEl = document.querySelector("#filters");
+const cartEl = document.querySelector("#cart-items");
+const countEl = document.querySelector("#cart-count");
+const totalEl = document.querySelector("#cart-total");
+let cart = {};
+let active = "Todas";
+const categories = ["Todas", ...new Set(menu.map(p => p.category))];
+function renderFilters() {
+  filtersEl.replaceChildren();
+  for (const category of categories) {
+    const button = document.createElement("button");
+    button.className = "filter";
+    button.type = "button";
+    button.textContent = category;
+    button.setAttribute("aria-pressed", String(category === active));
+    button.addEventListener("click", () => { active = category; renderFilters(); renderMenu(); });
+    filtersEl.append(button);
+  }
+}
+function renderMenu() {
+  menuEl.replaceChildren();
+  for (const p of menu.filter(p => active === "Todas" || p.category === active)) {
+    const article = document.createElement("article");
+    article.className = "card";
+    const visual = document.createElement("div");
+    visual.className = "visual"; visual.textContent = p.emoji; visual.setAttribute("aria-hidden","true");
+    const body = document.createElement("div"); body.className = "card-body";
+    const tag = document.createElement("div"); tag.className = "tag"; tag.textContent = p.category;
+    const title = document.createElement("h3"); title.textContent = p.name;
+    const desc = document.createElement("p"); desc.className = "desc"; desc.textContent = p.description;
+    const bottom = document.createElement("div"); bottom.className = "card-bottom";
+    const price = document.createElement("span"); price.className = "price"; price.textContent = formatMoney(p.price);
+    const add = document.createElement("button"); add.className = "add"; add.type = "button"; add.textContent = "Adicionar +"; add.setAttribute("aria-label", "Adicionar " + p.name);
+    add.addEventListener("click", () => { cart = changeQuantity(cart, p.id, 1); renderCart(); });
+    bottom.append(price,add); body.append(tag,title,desc,bottom); article.append(visual,body); menuEl.append(article);
+  }
+}
+function renderCart() {
+  const summary = calculateCart(cart);
+  cartEl.replaceChildren();
+  if (!summary.items.length) {
+    const empty = document.createElement("div"); empty.className = "empty"; empty.textContent = "Seu carrinho está vazio. Que tal uma pizza?"; cartEl.append(empty);
+  }
+  for (const item of summary.items) {
+    const row = document.createElement("div"); row.className = "cart-row";
+    const details = document.createElement("div");
+    const name = document.createElement("strong"); name.textContent = item.name;
+    const price = document.createElement("span"); price.className = "line-price"; price.textContent = formatMoney(item.subtotal);
+    const qty = document.createElement("div"); qty.className = "qty";
+    const minus = document.createElement("button"); minus.type = "button"; minus.textContent = "−"; minus.setAttribute("aria-label", "Remover uma " + item.name);
+    const amount = document.createElement("span"); amount.textContent = String(item.quantity);
+    const plus = document.createElement("button"); plus.type = "button"; plus.textContent = "+"; plus.setAttribute("aria-label", "Adicionar uma " + item.name);
+    minus.addEventListener("click", () => { cart = changeQuantity(cart, item.id, -1); renderCart(); });
+    plus.addEventListener("click", () => { cart = changeQuantity(cart, item.id, 1); renderCart(); });
+    qty.append(minus,amount,plus); details.append(name,price,qty); row.append(details); cartEl.append(row);
+  }
+  totalEl.textContent = formatMoney(summary.total); countEl.textContent = String(summary.count);
+}
+document.querySelector("#cart-toggle").addEventListener("click", () => { document.querySelector("#cart").scrollIntoView({ behavior: "smooth", block: "start" }); });
+renderFilters();renderMenu();renderCart();
+</script>
+</body></html>
