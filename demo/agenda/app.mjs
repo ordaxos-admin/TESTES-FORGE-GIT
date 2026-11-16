@@ -103,7 +103,7 @@ form.addEventListener('submit', event => {
 titleInput.addEventListener('input', () => titleInput.setCustomValidity(''));
 
 list.addEventListener('click', event => {
-  const button = event.target.closest('button[data-action]');
+  const button = event.target instanceof Element ? event.target.closest('button[data-action]') : null;
   if (!button || !list.contains(button)) return;
   const { action, id } = button.dataset;
   const task = tasks.find(item => item.id === id);
@@ -130,6 +130,7 @@ list.addEventListener('click', event => {
 filters.forEach(button => button.addEventListener('click', () => {
   currentFilter = button.dataset.filter;
   render();
+  actionStatus.textContent = `Filtro: ${button.textContent.trim()}. ${filterTasks(tasks, currentFilter).length} tarefa(s) exibida(s).`;
 }));
 
 window.addEventListener('storage', event => {
