@@ -49,3 +49,22 @@ footer{text-align:center;color:#919c91;font-size:.78rem;padding-top:70px}
 @media(max-width:360px){.shell{padding-inline:12px}.panel{padding:14px}.task-item{gap:7px;padding:9px}.filter{font-size:.76rem;padding-inline:4px}.delete{padding-inline:8px}}
 @media(hover:none){.delete{color:#354d3f}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+/* Layout resiliente a zoom, textos longos e áreas de toque pequenas. */
+@media(max-width:560px){
+  .toolbar,.toolbar>div{min-width:0}
+  .filters{flex-wrap:wrap}
+  .filter{min-width:max-content}
+  .task-item{flex-wrap:wrap}
+  .task-text{flex-basis:calc(100% - 62px)}
+  .delete{margin-left:auto}
+}
+@media(max-width:320px){
+  .filters{display:grid;grid-template-columns:1fr 1fr}
+  .filter{min-width:0}
+}
+@media(forced-colors:active){
+  .filter.active{outline:2px solid Highlight;outline-offset:-2px}
+  .completed .toggle{border-color:Highlight;color:Highlight}
+  .toggle,.primary,.delete{forced-color-adjust:auto}
+}
