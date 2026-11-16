@@ -5,7 +5,14 @@ export const MAX_TITLE_LENGTH = 160;
 export function normalizeTitle(value) {
   if (typeof value !== 'string') throw new TypeError('A descrição deve ser texto.');
   const title = value.trim().replace(/\s+/g, ' ');
-  if (!title || title.length > MAX_TITLE_LENGTH) throw new RangeError('A tarefa precisa ter entre 1 e 160 caracteres.');
+  // Controles de direção e caracteres de controle não são descrições válidas.
+  if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F\u202A-\u202E\u2066-\u2069]/u.test(title)) {
+    throw new RangeError('A descrição contém caracteres de controle inválidos.');
+  }
+  // Preserva ZWJ em emoji legítimo, mas não aceita títulos só com caracteres invisíveis.
+  if (!title.replace(/[\u200B-\u200D\u2060\uFEFF]/gu, '').trim() || title.length > MAX_TITLE_LENGTH) {
+    throw new RangeError('A tarefa precisa ter entre 1 e 160 caracteres visíveis.');
+  }
   return title;
 }
 
