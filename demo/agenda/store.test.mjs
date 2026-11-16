@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { STORAGE_KEY, MAX_TITLE_LENGTH, normalizeTitle, addTask, toggleTask, removeTask, filterTasks, parseTasks, countTasks } from './store.mjs';
+import { STORAGE_KEY, MAX_TITLE_LENGTH, normalizeTitle, addTask, toggleTask, removeTask, filterTasks, parseTasks, countTasks, keyboardTaskIndex } from './store.mjs';
 
 test('chave de armazenamento versionada', () => assert.equal(STORAGE_KEY, 'forge-agenda-tasks-v1'));
 test('adiciona descrição normalizada sem mutar lista original', () => {
@@ -114,4 +114,16 @@ test('adicionar tarefa inválida preserva o estado anterior', () => {
 test('título no limite de comprimento e espaços Unicode', () => {
   assert.equal(addTask([], 'x'.repeat(MAX_TITLE_LENGTH), 'limite')[0].title.length, MAX_TITLE_LENGTH);
   assert.equal(normalizeTitle('  tarefa\u2003importante  '), 'tarefa importante');
+});
+
+test('setas e Home/End navegam entre tarefas sem ultrapassar a lista', () => {
+  assert.equal(keyboardTaskIndex(1, 3, 'ArrowDown'), 2);
+  assert.equal(keyboardTaskIndex(2, 3, 'ArrowDown'), 2);
+  assert.equal(keyboardTaskIndex(1, 3, 'ArrowUp'), 0);
+  assert.equal(keyboardTaskIndex(0, 3, 'ArrowUp'), 0);
+  assert.equal(keyboardTaskIndex(1, 3, 'Home'), 0);
+  assert.equal(keyboardTaskIndex(1, 3, 'End'), 2);
+  assert.equal(keyboardTaskIndex(1, 3, 'Enter'), null);
+  assert.equal(keyboardTaskIndex(-1, 3, 'ArrowDown'), null);
+  assert.equal(keyboardTaskIndex(0, 0, 'End'), null);
 });
