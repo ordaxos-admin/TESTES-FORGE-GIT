@@ -1,4 +1,4 @@
-import { STORAGE_KEY, addTask, toggleTask, removeTask, filterTasks, parseTasks, countTasks } from './store.mjs';
+import { STORAGE_KEY, addTask, toggleTask, removeTask, filterTasks, parseTasks, countTasks, keyboardTaskIndex } from './store.mjs';
 
 const form = document.querySelector('#task-form');
 const titleInput = document.querySelector('#task-title');
@@ -128,6 +128,18 @@ list.addEventListener('click', event => {
     .find(item => item.dataset.id === nextTask.id && item.dataset.action === focusAction);
   const fallback = filters.find(item => item.dataset.filter === currentFilter);
   (target || fallback)?.focus();
+});
+
+// Setas e Home/End percorrem tarefas da mesma ação, sem retirar os botões do Tab.
+list.addEventListener('keydown', event => {
+  const button = event.target instanceof Element ? event.target.closest('button[data-action]') : null;
+  if (!button || !list.contains(button) || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+  const peers = [...list.querySelectorAll('button[data-action]')]
+    .filter(peer => peer.dataset.action === button.dataset.action);
+  const targetIndex = keyboardTaskIndex(peers.indexOf(button), peers.length, event.key);
+  if (targetIndex === null) return;
+  event.preventDefault();
+  peers[targetIndex].focus();
 });
 
 filters.forEach(button => button.addEventListener('click', () => {
