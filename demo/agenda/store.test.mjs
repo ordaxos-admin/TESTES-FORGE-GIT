@@ -99,11 +99,11 @@ test('filtros e ações não mutam registros e suportam lista vazia', () => {
 });
 
 test('recusa IDs vazios e registros do tipo array na recuperação', () => {
-  const records = [
-    [{ id: '  ', title: 'Teste', done: false }],
-    [Object.assign([], { id: 'ok', title: 'Teste', done: false })],
+  const invalid = [
+    '[{"id":"  ","title":"Teste","done":false}]',
+    '[[{"id":"ok","title":"Teste","done":false}]]',
   ];
-  for (const value of records) assert.throws(() => parseTasks(JSON.stringify(value)));
+  for (const raw of invalid) assert.throws(() => parseTasks(raw));
 });
 test('adicionar tarefa inválida preserva o estado anterior', () => {
   const tasks = addTask([], 'Existente', 'original');
