@@ -149,9 +149,10 @@ filters.forEach(button => button.addEventListener('click', () => {
 }));
 
 window.addEventListener('storage', event => {
-  if (event.key !== STORAGE_KEY) return;
+  if (event.storageArea !== localStorage || (event.key !== STORAGE_KEY && event.key !== null)) return;
   try {
-    tasks = parseTasks(event.newValue);
+    // clear() em outra aba emite key=null; reler a chave evita estado antigo.
+    tasks = parseTasks(localStorage.getItem(STORAGE_KEY));
     canPersist = true;
     warning.hidden = true;
     render();
