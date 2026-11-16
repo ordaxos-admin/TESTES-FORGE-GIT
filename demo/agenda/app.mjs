@@ -148,14 +148,37 @@ filters.forEach(button => button.addEventListener('click', () => {
   actionStatus.textContent = `Filtro: ${button.textContent.trim()}. ${filterTasks(tasks, currentFilter).length} tarefa(s) exibida(s).`;
 }));
 
+// Eventos de outras abas também reconstroem a lista: preservar a posição do teclado.
+function captureTaskFocus() {
+  const active = document.activeElement;
+  if (!(active instanceof Element) || !list.contains(active) || !active.matches('button[data-action]')) return null;
+  const visible = filterTasks(tasks, currentFilter);
+  return { id: active.dataset.id, action: active.dataset.action, index: visible.findIndex(task => task.id === active.dataset.id) };
+}
+
+function restoreTaskFocus(saved) {
+  if (!saved) return;
+  const visible = filterTasks(tasks, currentFilter);
+  const match = visible.find(task => task.id === saved.id);
+  const neighbor = match || visible[Math.min(Math.max(saved.index, 0), visible.length - 1)];
+  const action = match ? saved.action : 'toggle';
+  const target = neighbor && [...list.querySelectorAll('button[data-action]')]
+    .find(button => button.dataset.id === neighbor.id && button.dataset.action === action);
+  (target || filters.find(button => button.dataset.filter === currentFilter))?.focus();
+}
+
 window.addEventListener('storage', event => {
   if (event.storageArea !== localStorage || (event.key !== STORAGE_KEY && event.key !== null)) return;
   try {
     // clear() em outra aba emite key=null; reler a chave evita estado antigo.
-    tasks = parseTasks(localStorage.getItem(STORAGE_KEY));
+    const incoming = parseTasks(localStorage.getItem(STORAGE_KEY));
+    const savedFocus = captureTaskFocus();
+    tasks = incoming;
     canPersist = true;
     warning.hidden = true;
     render();
+    restoreTaskFocus(savedFocus);
+    actionStatus.textContent = 'Lista de tarefas atualizada em outra aba.';
   } catch {
     canPersist = false;
     warning.hidden = false;
