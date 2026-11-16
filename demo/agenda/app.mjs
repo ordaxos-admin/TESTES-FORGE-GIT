@@ -88,7 +88,9 @@ function render() {
 form.addEventListener('submit', event => {
   event.preventDefault();
   try {
-    tasks = addTask(tasks, titleInput.value, crypto.randomUUID());
+    const updated = addTask(tasks, titleInput.value, crypto.randomUUID());
+    tasks = updated;
+    titleInput.setCustomValidity('');
     titleInput.value = '';
     currentFilter = 'all';
     persist();
@@ -124,7 +126,8 @@ list.addEventListener('click', event => {
   const focusAction = sameTask ? action : 'toggle';
   const target = nextTask && [...list.querySelectorAll('button[data-action]')]
     .find(item => item.dataset.id === nextTask.id && item.dataset.action === focusAction);
-  (target || (visible.length ? list.querySelector('button') : filters.find(item => item.dataset.filter === currentFilter)))?.focus();
+  const fallback = filters.find(item => item.dataset.filter === currentFilter);
+  (target || fallback)?.focus();
 });
 
 filters.forEach(button => button.addEventListener('click', () => {
