@@ -48,3 +48,13 @@ export function countTasks(tasks) {
   const done = tasks.filter(task => task.done).length;
   return { total: tasks.length, done, active: tasks.length - done };
 }
+
+// Navegação por teclado mantém os limites da lista (sem salto inesperado).
+export function keyboardTaskIndex(index, total, key) {
+  if (!Number.isInteger(index) || !Number.isInteger(total) || index < 0 || index >= total) return null;
+  if (key === 'ArrowDown') return Math.min(index + 1, total - 1);
+  if (key === 'ArrowUp') return Math.max(index - 1, 0);
+  if (key === 'Home') return 0;
+  if (key === 'End') return total - 1;
+  return null;
+}
