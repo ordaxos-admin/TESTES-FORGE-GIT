@@ -140,3 +140,14 @@ test('preserva emoji composto e Unicode visível ao validar título', () => {
   assert.equal(normalizeTitle('  Reunião ' + family + '  '), 'Reunião ' + family);
   assert.deepEqual(parseTasks(JSON.stringify(addTask([], family, 'emoji'))), [{ id: 'emoji', title: family, done: false }]);
 });
+
+test('rejeita controles bidi e caracteres invisíveis embutidos sem corromper tarefas', () => {
+  const badTitles = ['Pagar\u200B boleto', 'A\u2060B', 'A\u200EB', 'A\u200FB', 'A\u061CB', 'A\uFEFFB'];
+  const original = addTask([], 'Tarefa legítima', 'safe');
+  for (const title of badTitles) {
+    assert.throws(() => addTask(original, title, 'new'), RangeError);
+    assert.throws(() => parseTasks(JSON.stringify([{ id: 'new', title, done: false }])), RangeError);
+  }
+  assert.equal(original.length, 1);
+  assert.equal(normalizeTitle('Planejar 👩‍💻'), 'Planejar 👩‍💻');
+});
