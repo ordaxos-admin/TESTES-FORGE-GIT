@@ -53,3 +53,9 @@ A partir de `36a738dc` foram publicados, sem PR:
 - `efa1074f`: ajuste das entradas persistidas dos testes para JSON real, sem depender de propriedades não serializadas.
 
 Foram mantidos os arquivos e testes anteriores. Os testes de Node e as interações de teclado em navegador real precisam ser executados antes de declarar cobertura aprovada. Não repetir estas correções em próximas conversas; conferir HEAD da branch antes de continuar.
+
+## Navegação de tarefas e sincronização entre abas
+
+- Botões Concluir/Reabrir e Excluir aceitam ↑/↓, Home e End para ir ao mesmo tipo de ação em outra tarefa visível; Tab e Shift+Tab mantêm o comportamento nativo. A ajuda está associada à lista para tecnologias assistivas.
+- Eventos `storage` são processados apenas quando pertencem ao `localStorage` e atingem a chave da agenda; `localStorage.clear()` em outra aba também atualiza a lista. Leituras inválidas permanecem protegidas contra sobrescrita.
+- A lógica de limites da navegação tem teste em Node. A interação real com teclado, leitores de tela e múltiplas abas ainda requer teste manual em navegador; não confundir com validação física concluída.
