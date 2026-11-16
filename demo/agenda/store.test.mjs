@@ -72,3 +72,28 @@ test('persistência rejeita IDs repetidos, título maior que limite e formato in
   ];
   for (const value of invalid) assert.throws(() => parseTasks(JSON.stringify(value)));
 });
+
+test('normaliza quebras de linha, tabulações e espaços sem alterar Unicode válido', () => {
+  assert.equal(normalizeTitle('  Café\n\tcom   pão  '), 'Café com pão');
+  assert.equal(normalizeTitle('🗓️ Lembrete'), '🗓️ Lembrete');
+});
+test('filtragem desconhecida preserva as tarefas e a ordem original', () => {
+  const tasks = addTask(addTask([], 'A', 'a'), 'B', 'b');
+  assert.strictEqual(filterTasks(tasks, 'unrecognized'), tasks);
+  assert.deepEqual(filterTasks(tasks, 'all').map(task => task.id), ['b', 'a']);
+});
+test('restauração não altera o array original nem aceita título vazio após normalização', () => {
+  const input = [{ id: 'one', title: '  Fazer   algo ', done: true }];
+  assert.deepEqual(parseTasks(JSON.stringify(input)), [{ id: 'one', title: 'Fazer algo', done: true }]);
+  assert.equal(input[0].title, '  Fazer   algo ');
+  assert.throws(() => parseTasks(JSON.stringify([{ id: 'a', title: '\u2003', done: false }])));
+});
+test('filtros e ações não mutam registros e suportam lista vazia', () => {
+  assert.deepEqual(countTasks([]), { total: 0, done: 0, active: 0 });
+  assert.deepEqual(filterTasks([], 'done'), []);
+  const tasks = addTask([], 'Exemplo', 'id');
+  assert.notStrictEqual(toggleTask(tasks, 'id'), tasks);
+  assert.equal(tasks[0].done, false);
+  assert.deepEqual(removeTask(tasks, 'id'), []);
+  assert.equal(tasks.length, 1);
+});
