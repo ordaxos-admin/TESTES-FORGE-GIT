@@ -97,3 +97,21 @@ test('filtros e ações não mutam registros e suportam lista vazia', () => {
   assert.deepEqual(removeTask(tasks, 'id'), []);
   assert.equal(tasks.length, 1);
 });
+
+test('recusa IDs vazios e registros do tipo array na recuperação', () => {
+  const records = [
+    [{ id: '  ', title: 'Teste', done: false }],
+    [Object.assign([], { id: 'ok', title: 'Teste', done: false })],
+  ];
+  for (const value of records) assert.throws(() => parseTasks(JSON.stringify(value)));
+});
+test('adicionar tarefa inválida preserva o estado anterior', () => {
+  const tasks = addTask([], 'Existente', 'original');
+  assert.throws(() => addTask(tasks, '   ', 'nova'));
+  assert.throws(() => addTask(tasks, 'Outra', 'original'));
+  assert.deepEqual(tasks, [{ id: 'original', title: 'Existente', done: false }]);
+});
+test('título no limite de comprimento e espaços Unicode', () => {
+  assert.equal(addTask([], 'x'.repeat(MAX_TITLE_LENGTH), 'limite')[0].title.length, MAX_TITLE_LENGTH);
+  assert.equal(normalizeTitle('  tarefa\u2003importante  '), 'tarefa importante');
+});
