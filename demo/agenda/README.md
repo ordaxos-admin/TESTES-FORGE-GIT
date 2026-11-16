@@ -42,3 +42,14 @@ Base confirmada no GitHub: `41dad9407acb`. A branch foi atualizada, sem modifica
 - `96789250`: mais quatro cenários de teste; suíte total de 17 casos.
 
 Os arquivos remotos foram relidos após os commits. A execução efetiva dos testes Node.js e a revisão com leitor de tela/navegador permanecem pendentes de validação no ambiente apropriado; não confundir presença dos testes com aprovação. Na próxima conversa, partir do HEAD remoto vigente, não repetir estas alterações e priorizar verificação de navegador e fluxo com múltiplas abas.
+
+## Continuidade — reforço de teclado e validação
+
+A partir de `36a738dc` foram publicados, sem PR:
+
+- `c6377adb`: foco estável após remoção de tarefas e limpeza explícita de validação depois da criação.
+- `f660c79e`: proteção na recuperação contra IDs compostos só por espaços e registros-array.
+- `b39ef11d`: testes de limites da descrição e proteção contra alteração de estado em erro.
+- `efa1074f`: ajuste das entradas persistidas dos testes para JSON real, sem depender de propriedades não serializadas.
+
+Foram mantidos os arquivos e testes anteriores. Os testes de Node e as interações de teclado em navegador real precisam ser executados antes de declarar cobertura aprovada. Não repetir estas correções em próximas conversas; conferir HEAD da branch antes de continuar.
