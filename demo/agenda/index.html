@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#182b24">
+  <meta name="description" content="Agenda simples de tarefas, disponível mesmo sem conexão.">
+  <title>Agenda — minhas tarefas</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="heading">
+      <div class="eyebrow">SUA ROTINA, ORGANIZADA</div>
+      <h1>Minha agenda<span class="dot">.</span></h1>
+      <p>Um lugar tranquilo para organizar o que importa.</p>
+    </header>
+    <section class="panel" aria-labelledby="new-task-title">
+      <h2 id="new-task-title">Nova tarefa</h2>
+      <form id="task-form" autocomplete="off">
+        <label class="visually-hidden" for="task-title">Descrição da tarefa</label>
+        <div class="entry">
+          <input id="task-title" name="title" type="text" maxlength="160" required placeholder="O que você precisa fazer?" aria-describedby="form-help">
+          <button class="primary" type="submit">Adicionar <span aria-hidden="true">＋</span></button>
+        </div>
+        <p class="help" id="form-help">Até 160 caracteres. Suas tarefas ficam neste navegador.</p>
+      </form>
+    </section>
+    <section class="tasks" aria-labelledby="tasks-title">
+      <div class="toolbar">
+        <div>
+          <h2 id="tasks-title">Suas tarefas</h2>
+          <p id="summary" role="status" aria-live="polite"></p>
+        </div>
+        <div class="filters" aria-label="Filtrar tarefas" role="group">
+          <button type="button" class="filter active" data-filter="all" aria-pressed="true">Todas</button>
+          <button type="button" class="filter" data-filter="active" aria-pressed="false">Pendentes</button>
+          <button type="button" class="filter" data-filter="done" aria-pressed="false">Concluídas</button>
+        </div>
+      </div>
+      <p id="storage-warning" class="warning" role="alert" hidden></p>
+      <ul id="task-list" class="task-list" aria-label="Lista de tarefas"></ul>
+      <div id="empty-state" class="empty" hidden>
+        <span aria-hidden="true" class="empty-icon">✓</span>
+        <h3 id="empty-title">Tudo em ordem</h3>
+        <p id="empty-detail">Adicione sua primeira tarefa para começar.</p>
+      </div>
+    </section>
+    <footer>Feito para os pequenos progressos de cada dia.</footer>
+  </main>
+</body>
+</html>
