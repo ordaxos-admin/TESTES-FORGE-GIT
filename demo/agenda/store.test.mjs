@@ -56,7 +56,7 @@ test('entrada com HTML é tratada como texto e preservada no armazenamento', () 
   assert.deepEqual(parseTasks(JSON.stringify(tasks)), tasks);
 });
 test('títulos somente com espaços Unicode não criam tarefas', () => {
-  assert.throws(() => addTask([], '\\u2003\\n\\t', 'empty'));
+  assert.throws(() => addTask([], '\u2003\n\t', 'empty'));
 });
 test('alternância e exclusão de ID desconhecido não alteram tarefas', () => {
   const tasks = addTask([], 'Revisar', '1');
