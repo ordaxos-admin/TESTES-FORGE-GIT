@@ -111,6 +111,7 @@ list.addEventListener('click', event => {
   const task = tasks.find(item => item.id === id);
   if (!task) return;
   const previousIndex = filterTasks(tasks, currentFilter).findIndex(item => item.id === id);
+  const focusBefore = { id, action, index: previousIndex };
   if (action === 'toggle') tasks = toggleTask(tasks, id);
   else if (action === 'delete') tasks = removeTask(tasks, id);
   else return;
@@ -119,15 +120,7 @@ list.addEventListener('click', event => {
   actionStatus.textContent = action === 'delete'
     ? `Tarefa excluída: ${task.title}.`
     : `Tarefa ${task.done ? 'reaberta' : 'concluída'}: ${task.title}.`;
-  // A lista é reconstruída: devolver foco à ação equivalente ou vizinha.
-  const visible = filterTasks(tasks, currentFilter);
-  const sameTask = visible.find(item => item.id === id);
-  const nextTask = sameTask || visible[Math.min(previousIndex, visible.length - 1)];
-  const focusAction = sameTask ? action : 'toggle';
-  const target = nextTask && [...list.querySelectorAll('button[data-action]')]
-    .find(item => item.dataset.id === nextTask.id && item.dataset.action === focusAction);
-  const fallback = filters.find(item => item.dataset.filter === currentFilter);
-  (target || fallback)?.focus();
+  restoreTaskFocus(focusBefore);
 });
 
 // Setas e Home/End percorrem tarefas da mesma ação, sem retirar os botões do Tab.
