@@ -35,7 +35,7 @@ export function parseTasks(raw) {
   if (!Array.isArray(decoded)) throw new Error('Formato de tarefas inválido.');
   const ids = new Set();
   return decoded.map(item => {
-    if (!item || typeof item !== 'object' || typeof item.id !== 'string' || !item.id || ids.has(item.id) || typeof item.done !== 'boolean') {
+    if (!item || typeof item !== 'object' || Array.isArray(item) || typeof item.id !== 'string' || !item.id.trim() || ids.has(item.id) || typeof item.done !== 'boolean') {
       throw new Error('Dados de tarefa inválidos.');
     }
     const title = normalizeTitle(item.title);
