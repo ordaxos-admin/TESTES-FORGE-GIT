@@ -31,3 +31,14 @@ SSOT: este diretório e a branch `forge-git/agent-2-2b64f1cd`. Antes de editar, 
 ## Registro de evolução
 
 2026-11-16: adicionada navegação acessível; preservação de foco e avisos; melhoria de toque/mobile; testes de validação e persistência ampliados. Commits independentes diretamente nesta branch, sem PR. Na próxima conversa, conferir o head remoto antes de editar e priorizar testes reais de navegador se houver ambiente disponível.
+
+## Continuidade verificada em 2026-11-16
+
+Base confirmada no GitHub: `41dad9407acb`. A branch foi atualizada, sem modificar `main` e sem abrir PR, com commits separados:
+
+- `00fbc810`: destino do atalho de teclado focável e lista associada ao resumo.
+- `a3d41b88`: anúncio acessível da filtragem e proteção de eventos delegados.
+- `c1bf908e`: ajustes em larguras pequenas, zoom e cores forçadas.
+- `96789250`: mais quatro cenários de teste; suíte total de 17 casos.
+
+Os arquivos remotos foram relidos após os commits. A execução efetiva dos testes Node.js e a revisão com leitor de tela/navegador permanecem pendentes de validação no ambiente apropriado; não confundir presença dos testes com aprovação. Na próxima conversa, partir do HEAD remoto vigente, não repetir estas alterações e priorizar verificação de navegador e fluxo com múltiplas abas.
