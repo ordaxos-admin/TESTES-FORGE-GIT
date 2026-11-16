@@ -8,7 +8,7 @@ Sirva o diretório do projeto em um servidor estático (por exemplo, `python -m 
 
 ## Testar
 
-Com Node.js 18 ou superior: `node --test demo/agenda/store.test.mjs` na raiz do repositório. Testes cobrem criação, validação, conclusão/reabertura, exclusão, filtros, contagem e recuperação de dados.
+Com Node.js 18 ou superior: `node --test demo/agenda/store.test.mjs` na raiz do repositório. Testes cobrem criação, validação, conclusão/reabertura, exclusão, filtros, contagem, recuperação de dados e entradas inválidas.
 
 ## Comportamento e limites
 
@@ -20,3 +20,14 @@ Com Node.js 18 ou superior: `node --test demo/agenda/store.test.mjs` na raiz do 
 ## Próxima conversa / continuidade
 
 SSOT: este diretório e a branch `forge-git/agent-2-2b64f1cd`. Antes de editar, leia estes arquivos e o último commit remoto. Preserve os testes anteriores `demo/gpt-direto.txt` e `demo/continuidade.txt`, mantenha `main` intocada e não abra PR. Evolua com testes proporcionais, conferindo commit e conteúdo remoto após escrever. Não presuma trabalho em segundo plano.
+
+## Acessibilidade e experiência mobile
+
+- Atalho de teclado “Pular para tarefas”; botões com rótulos descritivos; estado de filtros e conclusão exposto por `aria-pressed`.
+- Mensagens de alterações em região `role="status"` e foco restaurado após reconstrução da lista.
+- Controles de toque com pelo menos 44 × 44 CSS px, adaptação para telas estreitas, foco visível e redução de movimento.
+- Verificação manual recomendada: 320 px de largura, zoom 200%, navegação somente por Tab/Shift+Tab e leitor de tela. Nenhuma auditoria automatizada em navegador foi executada neste commit.
+
+## Registro de evolução
+
+2026-11-16: adicionada navegação acessível; preservação de foco e avisos; melhoria de toque/mobile; testes de validação e persistência ampliados. Commits independentes diretamente nesta branch, sem PR. Na próxima conversa, conferir o head remoto antes de editar e priorizar testes reais de navegador se houver ambiente disponível.
