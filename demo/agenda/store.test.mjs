@@ -48,3 +48,27 @@ test('dados inválidos não são aceitos silenciosamente', () => {
     assert.throws(() => parseTasks(value));
   }
 });
+
+test('entrada com HTML é tratada como texto e preservada no armazenamento', () => {
+  const title = '<img src=x onerror=alert(1)>';
+  const tasks = addTask([], title, 'html');
+  assert.equal(tasks[0].title, title);
+  assert.deepEqual(parseTasks(JSON.stringify(tasks)), tasks);
+});
+test('títulos somente com espaços Unicode não criam tarefas', () => {
+  assert.throws(() => addTask([], '\\u2003\\n\\t', 'empty'));
+});
+test('alternância e exclusão de ID desconhecido não alteram tarefas', () => {
+  const tasks = addTask([], 'Revisar', '1');
+  assert.deepEqual(toggleTask(tasks, 'desconhecido'), tasks);
+  assert.deepEqual(removeTask(tasks, 'desconhecido'), tasks);
+});
+test('persistência rejeita IDs repetidos, título maior que limite e formato inválido', () => {
+  const invalid = [
+    [{ id: 'a', title: 'x'.repeat(MAX_TITLE_LENGTH + 1), done: false }],
+    [{ id: 'a', title: 'ok', done: false }, { id: 'a', title: 'outro', done: true }],
+    [{ id: 'a', title: 123, done: false }],
+    [{ id: 'a', title: 'ok', done: null }],
+  ];
+  for (const value of invalid) assert.throws(() => parseTasks(JSON.stringify(value)));
+});
