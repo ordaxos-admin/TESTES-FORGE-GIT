@@ -31,7 +31,7 @@
     <section class="tasks" aria-labelledby="tasks-title">
       <div class="toolbar">
         <div>
-          <h2 id="tasks-title">Suas tarefas</h2>
+          <h2 id="tasks-title" tabindex="-1">Suas tarefas</h2>
           <p id="summary"></p>
           <p id="action-status" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
         </div>
@@ -42,7 +42,7 @@
         </div>
       </div>
       <p id="storage-warning" class="warning" role="alert" hidden></p>
-      <ul id="task-list" class="task-list" aria-label="Lista de tarefas"></ul>
+      <ul id="task-list" class="task-list" aria-label="Lista de tarefas" aria-describedby="summary"></ul>
       <div id="empty-state" class="empty" hidden>
         <span aria-hidden="true" class="empty-icon">✓</span>
         <h3 id="empty-title">Tudo em ordem</h3>
