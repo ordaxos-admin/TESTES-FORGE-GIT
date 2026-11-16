@@ -7,6 +7,7 @@ const empty = document.querySelector('#empty-state');
 const emptyTitle = document.querySelector('#empty-title');
 const emptyDetail = document.querySelector('#empty-detail');
 const summary = document.querySelector('#summary');
+const actionStatus = document.querySelector('#action-status');
 const warning = document.querySelector('#storage-warning');
 const filters = [...document.querySelectorAll('[data-filter]')];
 
@@ -50,6 +51,7 @@ function render() {
     toggle.dataset.id = task.id;
     toggle.setAttribute('aria-label', task.done ? `Reabrir tarefa: ${task.title}` : `Concluir tarefa: ${task.title}`);
     toggle.setAttribute('aria-pressed', String(task.done));
+    toggle.textContent = task.done ? '✓' : '';
     const label = document.createElement('span');
     label.className = 'task-text';
     label.textContent = task.title;
@@ -91,6 +93,7 @@ form.addEventListener('submit', event => {
     currentFilter = 'all';
     persist();
     render();
+    actionStatus.textContent = 'Tarefa adicionada.';
     titleInput.focus();
   } catch (error) {
     titleInput.setCustomValidity(error.message);
@@ -102,10 +105,26 @@ titleInput.addEventListener('input', () => titleInput.setCustomValidity(''));
 list.addEventListener('click', event => {
   const button = event.target.closest('button[data-action]');
   if (!button || !list.contains(button)) return;
-  if (button.dataset.action === 'toggle') tasks = toggleTask(tasks, button.dataset.id);
-  if (button.dataset.action === 'delete') tasks = removeTask(tasks, button.dataset.id);
+  const { action, id } = button.dataset;
+  const task = tasks.find(item => item.id === id);
+  if (!task) return;
+  const previousIndex = filterTasks(tasks, currentFilter).findIndex(item => item.id === id);
+  if (action === 'toggle') tasks = toggleTask(tasks, id);
+  else if (action === 'delete') tasks = removeTask(tasks, id);
+  else return;
   persist();
   render();
+  actionStatus.textContent = action === 'delete'
+    ? `Tarefa excluída: ${task.title}.`
+    : `Tarefa ${task.done ? 'reaberta' : 'concluída'}: ${task.title}.`;
+  // A lista é reconstruída: devolver foco à ação equivalente ou vizinha.
+  const visible = filterTasks(tasks, currentFilter);
+  const sameTask = visible.find(item => item.id === id);
+  const nextTask = sameTask || visible[Math.min(previousIndex, visible.length - 1)];
+  const focusAction = sameTask ? action : 'toggle';
+  const target = nextTask && [...list.querySelectorAll('button[data-action]')]
+    .find(item => item.dataset.id === nextTask.id && item.dataset.action === focusAction);
+  (target || (visible.length ? list.querySelector('button') : filters.find(item => item.dataset.filter === currentFilter)))?.focus();
 });
 
 filters.forEach(button => button.addEventListener('click', () => {
